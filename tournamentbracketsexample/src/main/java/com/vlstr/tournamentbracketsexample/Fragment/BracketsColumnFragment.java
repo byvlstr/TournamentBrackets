@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.vlstr.tournamentbracketsexample.R;
 import com.vlstr.tournamentbracketsexample.adapter.BracketsCellAdapter;
-import com.vlstr.tournamentbracketsexample.model.ColomnData;
+import com.vlstr.tournamentbracketsexample.model.ColumnData;
 import com.vlstr.tournamentbracketsexample.model.MatchData;
 import com.vlstr.tournamentbracketsexample.utils.UiUtils;
 
@@ -20,11 +20,12 @@ import java.util.ArrayList;
 
 /**
  * Created by Emil on 21/10/17.
+ * Edit by vlstr
  */
 
-public class BracketsColomnFragment extends Fragment {
+public class BracketsColumnFragment extends Fragment {
 
-    private ColomnData colomnData;
+    private ColumnData columnData;
     private int sectionNumber = 0;
     private int previousBracketSize;
     private ArrayList<MatchData> list;
@@ -59,10 +60,10 @@ public class BracketsColomnFragment extends Fragment {
     private void getExtras() {
         if (getArguments() != null) {
             list = new ArrayList<>();
-            colomnData = (ColomnData) getArguments().getSerializable("colomn_data");
+            columnData = (ColumnData) getArguments().getSerializable("colomn_data");
             sectionNumber = getArguments().getInt("section_number");
             previousBracketSize = getArguments().getInt("previous_section_size");
-            list.addAll(colomnData.getMatches());
+            list.addAll(columnData.getMatches());
             setInitialHeightForList();
         }
     }
@@ -101,17 +102,15 @@ public class BracketsColomnFragment extends Fragment {
         }
         adapter.setList(list);
     }
-    private void initAdapter() {
 
-//        pBar.setVisibility(View.GONE);
-         adapter = new BracketsCellAdapter(this, getContext(), list);
+    private void initAdapter() {
+        adapter = new BracketsCellAdapter(this, getContext(), list);
         if (bracketsRV != null) {
             bracketsRV.setHasFixedSize(true);
             bracketsRV.setNestedScrollingEnabled(false);
             bracketsRV.setAdapter(adapter);
             bracketsRV.smoothScrollToPosition(0);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             bracketsRV.setLayoutManager(layoutManager);
             bracketsRV.setItemAnimator(new DefaultItemAnimator());
         }

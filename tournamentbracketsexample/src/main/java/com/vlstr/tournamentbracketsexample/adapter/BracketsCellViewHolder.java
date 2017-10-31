@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,8 +19,8 @@ public class BracketsCellViewHolder extends RecyclerView.ViewHolder {
 
     private TextView teamOneName;
     private TextView teamTwoName;
-    private TextView teamOneScore;
-    private TextView teamTwoScore;
+    private EditText homeTeamScore;
+    private EditText awayTeamScore;
     private Animation animation;
     private RelativeLayout rootLayout;
 
@@ -27,8 +28,8 @@ public class BracketsCellViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         teamOneName = (TextView) itemView.findViewById(R.id.team_one_name);
         teamTwoName = (TextView) itemView.findViewById(R.id.team_two_name);
-        teamOneScore = (TextView) itemView.findViewById(R.id.team_one_score);
-        teamTwoScore = (TextView) itemView.findViewById(R.id.team_two_score);
+        homeTeamScore = (EditText) itemView.findViewById(R.id.team_one_score);
+        awayTeamScore = (EditText) itemView.findViewById(R.id.team_two_score);
         rootLayout = (RelativeLayout) itemView.findViewById(R.id.layout_root);
     }
 
@@ -45,12 +46,12 @@ public class BracketsCellViewHolder extends RecyclerView.ViewHolder {
         return teamTwoName;
     }
 
-    public TextView getTeamOneScore() {
-        return teamOneScore;
+    public EditText getHomeTeamScore() {
+        return homeTeamScore;
     }
 
-    public TextView getTeamTwoScore() {
-        return teamTwoScore;
+    public EditText getAwayTeamScore() {
+        return awayTeamScore;
     }
 
     public TextView getTeamOneName() {

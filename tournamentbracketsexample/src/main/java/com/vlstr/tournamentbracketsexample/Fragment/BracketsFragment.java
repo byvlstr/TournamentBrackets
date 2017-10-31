@@ -1,17 +1,23 @@
 package com.vlstr.tournamentbracketsexample.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.vlstr.tournamentbracketsexample.R;
 import com.vlstr.tournamentbracketsexample.adapter.BracketsSectionAdapter;
-import com.vlstr.tournamentbracketsexample.customviews.WrapContentHeightViewPager;
-import com.vlstr.tournamentbracketsexample.model.ColomnData;
+import com.vlstr.tournamentbracketsexample.customviews.TournamentViewPager;
+import com.vlstr.tournamentbracketsexample.model.ColumnData;
 import com.vlstr.tournamentbracketsexample.model.CompetitorData;
 import com.vlstr.tournamentbracketsexample.model.MatchData;
 import com.vlstr.tournamentbracketsexample.utils.UiUtils;
@@ -22,15 +28,24 @@ import java.util.List;
 
 /**
  * Created by Emil on 21/10/17.
+ * Edit by vlstr
  */
 
 public class BracketsFragment extends Fragment implements ViewPager.OnPageChangeListener {
 
-    private WrapContentHeightViewPager viewPager;
+    private TournamentViewPager viewPager;
     private BracketsSectionAdapter sectionAdapter;
-    private ArrayList<ColomnData> sectionList;
+    private ArrayList<ColumnData> tournamentRoundsDataList;
     private int mNextSelectedScreen;
     private int mCurrentPagerState;
+
+    public static void init(AppCompatActivity activity, @IdRes int containerId, BracketsFragment bracketFragment) {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(containerId, bracketFragment, "brackets_home_fragment");
+        transaction.commit();
+        manager.executePendingTransactions();
+    }
 
 
     @Nullable
@@ -43,55 +58,16 @@ public class BracketsFragment extends Fragment implements ViewPager.OnPageChange
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
-        setData();
         intialiseViewPagerAdapter();
     }
 
-    private void setData() {
-        sectionList = new ArrayList<>();
-        ArrayList<MatchData> Colomn1matchesList = new ArrayList<>();
-        ArrayList<MatchData> colomn2MatchesList = new ArrayList<>();
-        ArrayList<MatchData> colomn3MatchesList = new ArrayList<>();
-        CompetitorData competitorOne = new CompetitorData("Manchester United Fc", "2");
-        CompetitorData competitorTwo = new CompetitorData("Arsenal", "1");
-        CompetitorData competitorThree = new CompetitorData("Chelsea", "2");
-        CompetitorData competitorFour = new CompetitorData("Tottenham", "1");
-        CompetitorData competitorFive = new CompetitorData("Manchester FC", "2");
-        CompetitorData competitorSix = new CompetitorData("Liverpool", "4");
-        CompetitorData competitorSeven = new CompetitorData("West ham ", "2");
-        CompetitorData competitorEight = new CompetitorData("Bayern munich", "1");
-        MatchData matchData1 = new MatchData(competitorOne,competitorTwo);
-        MatchData matchData2 = new MatchData(competitorThree, competitorFour);
-        MatchData matchData3 = new MatchData(competitorFive,competitorSix);
-        MatchData matchData4 = new MatchData(competitorSeven, competitorEight);
-        Colomn1matchesList.add(matchData1);
-        Colomn1matchesList.add(matchData2);
-        Colomn1matchesList.add(matchData3);
-        Colomn1matchesList.add(matchData4);
-        ColomnData colomnData1 = new ColomnData(Colomn1matchesList);
-        sectionList.add(colomnData1);
-        CompetitorData competitorNine = new CompetitorData("Manchester United Fc", "2");
-        CompetitorData competitorTen = new CompetitorData("Chelsea", "4");
-        CompetitorData competitorEleven = new CompetitorData("Liverpool", "2");
-        CompetitorData competitorTwelve = new CompetitorData("westham", "1");
-        MatchData matchData5 = new MatchData(competitorNine,competitorTen);
-        MatchData matchData6 = new MatchData(competitorEleven, competitorTwelve);
-        colomn2MatchesList.add(matchData5);
-        colomn2MatchesList.add(matchData6);
-        ColomnData colomnData2 = new ColomnData(colomn2MatchesList);
-        sectionList.add(colomnData2);
-        CompetitorData competitorThirteen = new CompetitorData("Chelsea", "2");
-        CompetitorData competitorForteen = new CompetitorData("Liverpool", "1");
-        MatchData matchData7 = new MatchData(competitorThirteen, competitorForteen);
-        colomn3MatchesList.add(matchData7);
-        ColomnData colomnData3 = new ColomnData(colomn3MatchesList);
-        sectionList.add(colomnData3);
-
+    public void setData(@NonNull ArrayList<ColumnData> tournamentRoundsDataList) {
+        this.tournamentRoundsDataList = tournamentRoundsDataList;
     }
 
     private void intialiseViewPagerAdapter() {
 
-        sectionAdapter = new BracketsSectionAdapter(getChildFragmentManager(),this.sectionList);
+        sectionAdapter = new BracketsSectionAdapter(getChildFragmentManager(),this.tournamentRoundsDataList);
         viewPager.setOffscreenPageLimit(10);
         viewPager.setAdapter(sectionAdapter);
         viewPager.setCurrentItem(0);
@@ -104,7 +80,7 @@ public class BracketsFragment extends Fragment implements ViewPager.OnPageChange
 
     private void initViews() {
 
-        viewPager = (WrapContentHeightViewPager) getView().findViewById(R.id.container);
+        viewPager = getView().findViewById(R.id.tournament_view_pager);
     }
 
     @Override
@@ -173,14 +149,14 @@ public class BracketsFragment extends Fragment implements ViewPager.OnPageChange
 
     }
 
-    public BracketsColomnFragment getBracketsFragment(int position) {
-        BracketsColomnFragment bracktsFrgmnt = null;
+    public BracketsColumnFragment getBracketsFragment(int position) {
+        BracketsColumnFragment bracktsFrgmnt = null;
         if (getChildFragmentManager() != null) {
             List<Fragment> fragments = getChildFragmentManager().getFragments();
             if (fragments != null) {
                 for (Fragment fragment : fragments) {
-                    if (fragment instanceof BracketsColomnFragment) {
-                        bracktsFrgmnt = (BracketsColomnFragment) fragment;
+                    if (fragment instanceof BracketsColumnFragment) {
+                        bracktsFrgmnt = (BracketsColumnFragment) fragment;
                         if (bracktsFrgmnt.getSectionNumber() == position)
                             break;
                     }

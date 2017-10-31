@@ -1,28 +1,28 @@
 package com.vlstr.tournamentbracketsexample.customviews;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 
 /**
  * Created by Emil on 21/10/17.
+ * Edit by vlstr
  */
 
-public class WrapContentHeightViewPager extends ViewPager {
+public class TournamentViewPager extends ViewPager {
 
     private Context context;
 
-    public WrapContentHeightViewPager(Context context) {
+    public TournamentViewPager(Context context) {
         super(context);
         this.context = context;
     }
 
-    public WrapContentHeightViewPager(Context context, AttributeSet attrs) {
+    public TournamentViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 
     @Override
@@ -40,28 +40,13 @@ public class WrapContentHeightViewPager extends ViewPager {
 
             if (h > height) height = h;
 
-            int screenHeight = 1920;
+            int screenHeight = context.getResources().getDisplayMetrics().heightPixels;
             if (screenHeight > height)
                 height = screenHeight;
-            //overriding wrap content feature
-            // int[] screenSize = getScreenSIze();
-            // height = 1800;
         }
-
 
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    private int[] getScreenSIze() {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int h = displaymetrics.heightPixels;
-        int w = displaymetrics.widthPixels;
-
-        int[] size = {w, h};
-        return size;
-
     }
 }
