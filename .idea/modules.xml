@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Brackets.iml" filepath="$PROJECT_DIR$/Brackets.iml" />
       <module fileurl="file://$PROJECT_DIR$/TournamentBrackets.iml" filepath="$PROJECT_DIR$/TournamentBrackets.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tournamentbracketsexample/tournamentbracketsexample.iml" filepath="$PROJECT_DIR$/tournamentbracketsexample/tournamentbracketsexample.iml" />
     </modules>
   </component>
 </project>
